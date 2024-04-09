@@ -1,12 +1,10 @@
+import java.io.IOException;
 import java.util.Scanner;
-
-
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Calculator {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
-        //Main result = new Main();
         System.out.println("Input:");
         String expr = input.nextLine();
         String result = Main.calc(expr);
@@ -14,14 +12,16 @@ public class Calculator {
 
     }
 }
-
     class Main {
-        public static String calc(String input) {
+        public static String calc(String input) throws IOException{
             Main check = new Main();
             Main resultRoman = new Main();
             String exception = "throws Exception";
             String[] inputMass = input.split(" ");
-            if (inputMass.length != 3) return exception;
+            // проверка введенного выражения
+            if (inputMass.length != 3) {
+                throw new IOException();
+            }
 
             String res = "";
             int y = 0;
@@ -38,8 +38,9 @@ public class Calculator {
             sys2 = check.checkSys(inputMass[2]);
             y = sys1;
 
-            if (sys1 != sys2 )
-                return exception;
+            if (sys1 != sys2 ) {
+                throw new IOException();
+            }
             else {
                 switch (y){
                     case 0:
@@ -58,7 +59,9 @@ public class Calculator {
                 }
             }
 
-            if (num1 <1 || num1 >10 || num2 <1 || num2 >10) return exception;
+            if (num1 <1 || num1 >10 || num2 <1 || num2 >10) {
+                throw new IOException();
+            }
 
             switch (inputMass[1]) {
                 case "+": {
@@ -74,11 +77,14 @@ public class Calculator {
                             result = num1 / num2;
                             break;
                         } default:
-                            return exception;
+                            throw new IOException();
             }
             if (romeFlag1 && result > 0) {
                 res = resultRoman.arabToRome(result);
                 return res;
+            }
+            else if (romeFlag1 && result < 0){
+                throw new IOException();
             }
 
             res = Integer.toString(result);
